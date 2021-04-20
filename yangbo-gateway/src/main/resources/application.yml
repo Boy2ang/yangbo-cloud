@@ -1,0 +1,46 @@
+server:
+  port: 8301
+
+spring:
+  application:
+    name: YangBo-Gateway
+
+eureka:
+  instance:
+    lease-renewal-interval-in-seconds: 20
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    instance-info-replication-interval-seconds: 30
+    registry-fetch-interval-seconds: 3
+    serviceUrl:
+      defaultZone: http://yangbo:yangbo@localhost:8001/register/eureka/
+
+zuul:
+  routes:
+    # 系统微服务
+    system:
+      path: /system/**
+      serviceId: YangBo-Server-System
+      sensitiveHeaders: "*"
+    # 测试微服务
+    test:
+      path: /test/**
+      serviceId: YangBo-Server-Test
+      sensitiveHeaders: "*"
+    # 认证微服务
+    auth:
+      path: /auth/**
+      # 是否去掉前缀，默认是去掉的
+      # strip-prefix: false
+      serviceId: YangBo-Auth
+      sensitiveHeaders: "*"
+
+  retryable: true
+  ignored-services: "*"
+  ribbon:
+    eager-load:
+      enabled: true
+
+ribbon:
+  ReadTimeout: 3000

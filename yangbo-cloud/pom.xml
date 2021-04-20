@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>life.yangbo</groupId>
+    <artifactId>yangbo-cloud</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <modules>
+        <!--公共模块 maven-->
+        <module>../yangbo-common</module>
+        <!--注册中心 boot jar-->
+        <module>../yangbo-register</module>
+        <!--认证服务器 boot jar-->
+        <module>../yangbo-auth</module>
+        <!--网关 boot jar-->
+        <module>../yangbo-gateway</module>
+        <!--服务父模块 maven pom-->
+        <module>../yangbo-server</module>
+    </modules>
+    <packaging>pom</packaging>
+
+    <name>YangBo-Cloud</name>
+    <description>微服务框架</description>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.1.6.RELEASE</version>
+        <relativePath/>
+    </parent>
+
+    <properties>
+        <spring-cloud.version>Greenwich.SR1</spring-cloud.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+</project>

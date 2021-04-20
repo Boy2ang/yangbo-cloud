@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <artifactId>yangbo-cloud</artifactId>
+        <groupId>life.yangbo</groupId>
+        <version>1.0-SNAPSHOT</version>
+        <relativePath>../yangbo-cloud/pom.xml</relativePath>
+    </parent>
+    <groupId>life.yangbo</groupId>
+    <artifactId>yangbo-auth</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>YangBo-Auth</name>
+    <description>YangBo-Cloud认证服务器</description>
+    <properties>
+        <java.version>1.8</java.version>
+    </properties>
+    <dependencies>
+
+        <!--公共依赖-->
+        <dependency>
+            <groupId>life.yangbo</groupId>
+            <artifactId>yangbo-common</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
+
+
+</project>

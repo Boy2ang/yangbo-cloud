@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="yangbo-common" />
+        <module name="yangbo-server-test" />
+        <module name="yangbo-server-system" />
+        <module name="yangbo-auth" />
+        <module name="yangbo-gateway" />
+        <module name="yangbo-register" />
+      </profile>
+    </annotationProcessing>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="yangbo-auth" options="-parameters" />
+      <module name="yangbo-cloud" options="-parameters" />
+      <module name="yangbo-common" options="-parameters" />
+      <module name="yangbo-gateway" options="-parameters" />
+      <module name="yangbo-register" options="-parameters" />
+      <module name="yangbo-server" options="-parameters" />
+      <module name="yangbo-server-system" options="-parameters" />
+      <module name="yangbo-server-test" options="-parameters" />
+    </option>
+  </component>
+</project>
