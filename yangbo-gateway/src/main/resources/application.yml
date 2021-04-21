@@ -17,6 +17,10 @@ eureka:
       defaultZone: http://yangbo:yangbo@localhost:8001/register/eureka/
 
 zuul:
+  SendErrorFilter:
+    error:
+      # 让默认的异常过滤器失效从而使用自己的
+      disable: true
   routes:
     # 系统微服务
     system:

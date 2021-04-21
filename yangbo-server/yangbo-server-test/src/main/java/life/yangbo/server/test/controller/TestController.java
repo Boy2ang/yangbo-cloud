@@ -28,4 +28,15 @@ public class TestController {
         log.info("i am coming...");
         return principal;
     }
+
+    @GetMapping("over-time")
+    public String testovertime() {
+        try {
+            // 模拟耗时10秒
+            Thread.sleep(10000);
+        } catch (InterruptedException e) {
+            log.error(e.getMessage());
+        }
+        return "测试超时";
+    }
 }
