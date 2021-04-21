@@ -3,8 +3,9 @@ package life.yangbo.auth.configure;
 import life.yangbo.auth.properties.FebsAuthProperties;
 import life.yangbo.auth.properties.FebsClientsProperties;
 import life.yangbo.auth.service.FebsUserDetailService;
-import org.apache.commons.lang.ArrayUtils;
-import org.apache.commons.lang.StringUtils;
+import life.yangbo.auth.translator.FebsWebResponseExceptionTranslator;
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -41,6 +42,11 @@ public class FebsAuthorizationServerConfigure extends AuthorizationServerConfigu
      */
     @Autowired
     private FebsAuthProperties authProperties;
+    /**
+     * 自定义异常翻译器
+     */
+    @Autowired
+    private FebsWebResponseExceptionTranslator exceptionTranslator;
 
     /**
      * 客户端从认证服务器获取令牌的时候，必须使用client_id为febs，client_secret为123456的标识来获取；
@@ -85,7 +91,10 @@ public class FebsAuthorizationServerConfigure extends AuthorizationServerConfigu
         endpoints.tokenStore(tokenStore())
                 .userDetailsService(userDetailService)
                 .authenticationManager(authenticationManager)
-                .tokenServices(defaultTokenServices());
+                .tokenServices(defaultTokenServices())
+                // 将异常交给自定义异常翻译器处理
+                .exceptionTranslator(exceptionTranslator);
+
     }
 
     @Bean
