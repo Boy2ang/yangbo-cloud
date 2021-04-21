@@ -1,6 +1,10 @@
 package life.yangbo.auth.configure;
 
+import life.yangbo.auth.properties.FebsAuthProperties;
+import life.yangbo.auth.properties.FebsClientsProperties;
 import life.yangbo.auth.service.FebsUserDetailService;
+import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -8,6 +12,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.config.annotation.builders.InMemoryClientDetailsServiceBuilder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
@@ -31,6 +36,11 @@ public class FebsAuthorizationServerConfigure extends AuthorizationServerConfigu
     private FebsUserDetailService userDetailService;
     @Autowired
     private PasswordEncoder passwordEncoder;
+    /**
+     * 参数配置
+     */
+    @Autowired
+    private FebsAuthProperties authProperties;
 
     /**
      * 客户端从认证服务器获取令牌的时候，必须使用client_id为febs，client_secret为123456的标识来获取；
@@ -41,13 +51,33 @@ public class FebsAuthorizationServerConfigure extends AuthorizationServerConfigu
      */
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-        clients.inMemory()
+        // 从参数中获取
+        FebsClientsProperties[] clientsArray = authProperties.getClients();
+        InMemoryClientDetailsServiceBuilder builder = clients.inMemory();
+        if (ArrayUtils.isNotEmpty(clientsArray)) {
+            for (FebsClientsProperties client : clientsArray) {
+                if (StringUtils.isBlank(client.getClient())) {
+                    throw new Exception("client不能为空");
+                }
+                if (StringUtils.isBlank(client.getSecret())) {
+                    throw new Exception("secret不能为空");
+                }
+                // 根据逗号拆分
+                String[] grantTypes = StringUtils.splitByWholeSeparatorPreserveAllTokens(client.getGrantType(), ",");
+                builder.withClient(client.getClient())
+                        .secret(passwordEncoder.encode(client.getSecret()))
+                        .authorizedGrantTypes(grantTypes)
+                        .scopes(client.getScope());
+            }
+        }
+        // 固定写死的
+        /*clients.inMemory()
                 // 客户端需要携带的id和secret
                 .withClient("yangbo_client")
                 .secret(passwordEncoder.encode("yangbo_secret"))
                 // 密码模式
                 .authorizedGrantTypes("password", "refresh_token")
-                .scopes("all");
+                .scopes("all");*/
     }
 
     @Override
@@ -70,9 +100,11 @@ public class FebsAuthorizationServerConfigure extends AuthorizationServerConfigu
         tokenServices.setTokenStore(tokenStore());
         tokenServices.setSupportRefreshToken(true);
         // 令牌有效时间
-        tokenServices.setAccessTokenValiditySeconds(60 * 60 * 24);
+        // tokenServices.setAccessTokenValiditySeconds(60 * 60 * 24);
+        tokenServices.setAccessTokenValiditySeconds(authProperties.getAccessTokenValiditySeconds());
         // 刷新令牌有效时间
-        tokenServices.setRefreshTokenValiditySeconds(60 * 60 * 24 * 7);
+        // tokenServices.setRefreshTokenValiditySeconds(60 * 60 * 24 * 7);
+        tokenServices.setRefreshTokenValiditySeconds(authProperties.getRefreshTokenValiditySeconds());
         return tokenServices;
     }
 }
