@@ -16,6 +16,20 @@
 
     <dependencies>
 
+        <!--hystirx依赖-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-hystrix</artifactId>
+        </dependency>
+
+
+        <!--feign微服务调用组件-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+        </dependency>
+
+
         <!--自定义配置类需要的依赖-->
         <dependency>
             <groupId>org.springframework.boot</groupId>

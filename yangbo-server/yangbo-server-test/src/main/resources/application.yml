@@ -21,3 +21,11 @@ security:
       id: ${spring.application.name}
       user-info-uri: http://localhost:8301/auth/user
 
+feign:
+  hystrix:
+    # 开启熔断机制，feign发生异常时fallback生效
+    enabled: true
+
+hystrix:
+  # 配置把SecurityContext对象从你当前主线程传输到Hystrix线程;让feign拦截器顺利获取令牌
+  shareSecurityContext: true

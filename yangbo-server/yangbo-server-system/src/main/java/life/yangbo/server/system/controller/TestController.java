@@ -22,4 +22,14 @@ public class TestController {
     public Principal currentUser(Principal principal) {
         return principal;
     }
+
+    /**
+     * 供feign远程调用
+     * @param name
+     * @return
+     */
+    @GetMapping("hello")
+    public String hello(String name) {
+        return "hello" + name;
+    }
 }

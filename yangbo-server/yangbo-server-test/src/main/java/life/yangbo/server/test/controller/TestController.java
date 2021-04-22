@@ -1,6 +1,8 @@
 package life.yangbo.server.test.controller;
 
+import life.yangbo.server.test.service.IHelloService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -38,5 +40,16 @@ public class TestController {
             log.error(e.getMessage());
         }
         return "测试超时";
+    }
+
+    /**
+     * 远程调用server-system
+     */
+    @Autowired
+    private IHelloService helloService;
+
+    @GetMapping("hello")
+    public String hello(String name){
+        return this.helloService.hello(name);
     }
 }
