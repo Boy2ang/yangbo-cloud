@@ -4,6 +4,9 @@ server:
 spring:
   application:
     name: YangBo-Server-System
+  # 由于引用了common的mybatis-plus-boot-starter会自动装配，这儿不需要需要手动关闭
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
 
 eureka:
   instance:

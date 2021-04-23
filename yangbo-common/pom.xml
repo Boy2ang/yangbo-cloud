@@ -16,6 +16,14 @@
 
     <dependencies>
 
+        <!--mp-->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-boot-starter</artifactId>
+            <version>3.1.2</version>
+        </dependency>
+
+
         <!--hystirx依赖-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
