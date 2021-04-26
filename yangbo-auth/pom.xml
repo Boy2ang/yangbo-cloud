@@ -18,6 +18,14 @@
     </properties>
     <dependencies>
 
+        <!--生成验证码的开源项目，网址：https://github.com/whvcse/EasyCaptcha-->
+        <dependency>
+            <groupId>com.github.whvcse</groupId>
+            <artifactId>easy-captcha</artifactId>
+            <version>1.6.2</version>
+        </dependency>
+
+
         <!--mp多数据源-->
         <dependency>
             <groupId>com.baomidou</groupId>

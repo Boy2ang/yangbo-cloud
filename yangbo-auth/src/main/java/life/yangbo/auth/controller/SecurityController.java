@@ -1,7 +1,9 @@
 package life.yangbo.auth.controller;
 
+import life.yangbo.auth.service.ValidateCodeService;
 import life.yangbo.common.entity.FebsResponse;
 import life.yangbo.common.exception.FebsAuthException;
+import life.yangbo.common.exception.ValidateCodeException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.provider.token.ConsumerTokenServices;
@@ -11,6 +13,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.security.Principal;
 
 @Slf4j
@@ -41,5 +45,20 @@ public class SecurityController {
             throw new FebsAuthException("退出登录失败");
         }
         return febsResponse.message("退出登录成功");
+    }
+
+    @Autowired
+    private ValidateCodeService validateCodeService;
+
+    /**
+     * 生成验证码
+     * @param request
+     * @param response
+     * @throws IOException
+     * @throws ValidateCodeException
+     */
+    @GetMapping("captcha")
+    public void captcha(HttpServletRequest request, HttpServletResponse response) throws IOException, ValidateCodeException {
+        validateCodeService.create(request, response);
     }
 }

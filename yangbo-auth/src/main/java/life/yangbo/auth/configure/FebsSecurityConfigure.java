@@ -1,5 +1,6 @@
 package life.yangbo.auth.configure;
 
+import life.yangbo.auth.filter.ValidateCodeFilter;
 import life.yangbo.auth.service.FebsUserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -11,6 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
  * 用于处理/oauth开头的请求，Spring Cloud OAuth内部定义的获取令牌，刷新令牌的请求地址都是以/oauth/开头的，
@@ -31,6 +33,12 @@ public class FebsSecurityConfigure extends WebSecurityConfigurerAdapter {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    /**
+     * 检验验证码的过滤器
+     */
+    @Autowired
+    private ValidateCodeFilter validateCodeFilter;
+
     @Bean
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
@@ -39,7 +47,10 @@ public class FebsSecurityConfigure extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.requestMatchers()
+
+        // UsernamePasswordAuthenticationFilter过滤器执行前先执行验证码校验
+        http.addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class)
+                .requestMatchers()
                 // 这个配置类只对当前路径的请求有效,比如/abc/*，则不会进入到这个过滤器
                 .antMatchers("/oauth/**")
                 .and()
