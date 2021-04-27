@@ -2,6 +2,8 @@ package life.yangbo.server.system.configure;
 
 import life.yangbo.common.handler.FebsAccessDeniedHandler;
 import life.yangbo.common.handler.FebsAuthExceptionEntryPoint;
+import life.yangbo.server.system.properties.FebsServerSystemProperties;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -27,13 +29,25 @@ public class FebsServerSystemResourceServerConfigure extends ResourceServerConfi
     @Autowired
     private FebsAuthExceptionEntryPoint exceptionEntryPoint;
 
+    /**
+     * swagger免认证的配置
+     */
+    @Autowired
+    private FebsServerSystemProperties properties;
+
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
+
+        // 免认证的路径
+        String[] anonUrls = StringUtils.splitByWholeSeparatorPreserveAllTokens(properties.getAnonUrl(), ",");
+
         http.csrf().disable()
                 .requestMatchers().antMatchers("/**")
                 .and()
                 .authorizeRequests()
+                // 放行路径
+                .antMatchers(anonUrls).permitAll()
                 .antMatchers("/**").authenticated();
     }
 
