@@ -4,9 +4,38 @@ server:
 spring:
   application:
     name: YangBo-Server-System
-  # 由于引用了common的mybatis-plus-boot-starter会自动装配，这儿不需要需要手动关闭
-  autoconfigure:
-    exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+    #由于引用了common的mybatis-plus-boot-starter会自动装配，这儿不需要需要手动关闭  (当引用动态数据源也需要注释当前配置开启自动装配)
+    #autoconfigure:
+    #exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+  #数据源配置
+  datasource:
+    dynamic:
+      #打印mybatis执行的sql
+      p6spy: true
+      hikari:
+        connection-timeout: 30000
+        max-lifetime: 1800000
+        max-pool-size: 15
+        min-idle: 5
+        connection-test-query: select 1
+        pool-name: FebsHikariCP
+      primary: base
+      datasource:
+        base:
+          username: root
+          password: password
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          url: jdbc:mysql://localhost:3306/febs_cloud_base?useUnicode=true&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=GMT%2b8
+
+
+mybatis-plus:
+  type-aliases-package: life.yangbo.common.entity.system
+  mapper-locations: classpath:mapper/*/*.xml
+  configuration:
+    jdbc-type-for-null: null
+  global-config:
+    banner: false
+
 
 eureka:
   instance:
@@ -22,7 +51,7 @@ security:
   oauth2:
     resource:
       id: ${spring.application.name}
-      # 通过微服务网关，该请求将被转发到http://localhost:8101/user。该配置的作用主要有两个：
-      # 到认证服务器里校验当前请求头中的令牌是否为合法的令牌；
-      # 通过当前令牌获取对应的用户信息。
+      #通过微服务网关，该请求将被转发到http://localhost:8101/user。该配置的作用主要有两个：
+      #到认证服务器里校验当前请求头中的令牌是否为合法的令牌；
+      #通过当前令牌获取对应的用户信息。
       user-info-uri: http://localhost:8301/auth/user

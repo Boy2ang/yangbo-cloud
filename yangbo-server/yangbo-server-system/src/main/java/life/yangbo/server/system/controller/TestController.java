@@ -18,7 +18,7 @@ public class TestController {
      * @param principal
      * @return
      */
-    @GetMapping("user")
+    @GetMapping("currentUser")
     public Principal currentUser(Principal principal) {
         return principal;
     }
