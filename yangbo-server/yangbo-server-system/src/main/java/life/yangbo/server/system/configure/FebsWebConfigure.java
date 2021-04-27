@@ -8,15 +8,17 @@ import life.yangbo.server.system.properties.FebsSwaggerProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import springfox.documentation.builders.OAuthBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.service.ApiInfo;
-import springfox.documentation.service.Contact;
+import springfox.documentation.service.*;
 import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -58,7 +60,11 @@ public class FebsWebConfigure {
                 .paths(PathSelectors.any())
                 .build()
                 // 用于定义一些API页面信息，比如作者名称，邮箱，网站链接，开源协议等等。
-                .apiInfo(apiInfo(swagger));
+                .apiInfo(apiInfo(swagger))
+                // 安全策略
+                .securitySchemes(Collections.singletonList(securityScheme(swagger)))
+                // 安全上下文
+                .securityContexts(Collections.singletonList(securityContext(swagger)));
     }
 
     /**
@@ -73,5 +79,29 @@ public class FebsWebConfigure {
                 null,
                 new Contact(swagger.getAuthor(), swagger.getUrl(), swagger.getEmail()),
                 swagger.getLicense(), swagger.getLicenseUrl(), Collections.emptyList());
+    }
+
+    private SecurityScheme securityScheme(FebsSwaggerProperties swagger) {
+        // 密码模式
+        GrantType grantType = new ResourceOwnerPasswordCredentialsGrant(swagger.getGrantUrl());
+        return new OAuthBuilder()
+                .name(swagger.getName())
+                .grantTypes(Collections.singletonList(grantType))
+                .scopes(Arrays.asList(scopes(swagger)))
+                .build();
+    }
+
+
+    private SecurityContext securityContext(FebsSwaggerProperties swagger) {
+        return SecurityContext.builder()
+                .securityReferences(Collections.singletonList(new SecurityReference(swagger.getName(), scopes(swagger))))
+                .forPaths(PathSelectors.any())
+                .build();
+    }
+
+    private AuthorizationScope[] scopes(FebsSwaggerProperties swagger) {
+        return new AuthorizationScope[]{
+                new AuthorizationScope(swagger.getScope(), "")
+        };
     }
 }

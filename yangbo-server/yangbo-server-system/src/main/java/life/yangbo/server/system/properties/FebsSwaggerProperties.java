@@ -3,7 +3,7 @@ package life.yangbo.server.system.properties;
 import lombok.Data;
 
 @Data
-public class FebsSwaggerProperties{
+public class FebsSwaggerProperties {
 
     private String basePackage;
     private String title;
@@ -14,5 +14,9 @@ public class FebsSwaggerProperties{
     private String email;
     private String license;
     private String licenseUrl;
+
+    private String grantUrl;
+    private String name;
+    private String scope;
 
 }
