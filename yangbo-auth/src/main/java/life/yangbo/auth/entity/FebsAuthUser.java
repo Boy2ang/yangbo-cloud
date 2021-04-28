@@ -11,7 +11,7 @@ import java.util.Date;
 
 /**
  * 用于装载登录时，从t_user表里查询出来的数据。
- * 几次User目的：Security 的 User 包含了认证登陆的一些字段，而此类的字段主要是丰富用户信息（实际就是拓展了在线用户信息）
+ * 继承User目的：Security 的 User 包含了认证登陆的一些字段，而此类的字段主要是丰富用户信息（实际就是拓展了在线用户信息）
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
