@@ -4,9 +4,14 @@ server:
 spring:
   application:
     name: YangBo-Server-System
-    #由于引用了common的mybatis-plus-boot-starter会自动装配，这儿不需要需要手动关闭  (当引用动态数据源也需要注释当前配置开启自动装配)
-    #autoconfigure:
-    #exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+  # admin监控
+  boot:
+    admin:
+      client:
+        url: http://localhost:8401
+        # admin监控服务端的用户名和密码
+        username: yangbo
+        password: 123456
   #数据源配置
   datasource:
     dynamic:
@@ -55,3 +60,23 @@ security:
       #到认证服务器里校验当前请求头中的令牌是否为合法的令牌；
       #通过当前令牌获取对应的用户信息。
       user-info-uri: http://localhost:8301/auth/user
+
+# 监控相关
+info:
+  app:
+    name: ${spring.application.name}
+    description: "@project.description@"
+    version: "@project.version@"
+
+
+# 监控相关
+management:
+  endpoints:
+    web:
+      exposure:
+        # 表示将SpringBootAdmin客户端的所有监控端点都暴露给SBA服务端
+        include: '*'
+  endpoint:
+    health:
+      # 表示总是展示详细的健康信息
+      show-details: ALWAYS

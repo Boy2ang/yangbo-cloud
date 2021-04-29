@@ -37,6 +37,11 @@ public class FebsResourceServerConfigure extends ResourceServerConfigurerAdapter
     private FebsAuthProperties properties;
 
 
+    /**
+     * 处理非/oauth/开头的请求
+     * @param http
+     * @throws Exception
+     */
     @Override
     public void configure(HttpSecurity http) throws Exception {
 

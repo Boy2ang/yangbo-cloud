@@ -49,13 +49,13 @@ public class FebsSecurityConfigure extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 
         // UsernamePasswordAuthenticationFilter过滤器执行前先执行验证码校验
-        http.addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class)
-                .requestMatchers()
-                // 这个配置类只对当前路径的请求有效,比如/abc/*，则不会进入到这个过滤器
-                .antMatchers("/oauth/**")
+        http
+                .addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class)
+                // FebsSecurityConfigure安全配置类只对/oauth/开头的请求有效。
+                .requestMatchers().antMatchers("/oauth/**")
                 .and()
-                .authorizeRequests()
-                .antMatchers("/oauth/**").authenticated()
+                // 访问
+                .authorizeRequests().antMatchers("/oauth/**").authenticated()
                 .and()
                 .csrf().disable();
     }

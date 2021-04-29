@@ -18,6 +18,8 @@
         <module>../yangbo-gateway</module>
         <!--服务父模块 maven pom-->
         <module>../yangbo-server</module>
+        <!--springboot-admin监控模块-->
+        <module>../yangbo-monitor</module>
     </modules>
     <packaging>pom</packaging>
 

@@ -11,6 +11,7 @@
         <module name="yangbo-server-test" />
         <module name="yangbo-server-system" />
         <module name="yangbo-auth" />
+        <module name="yangbo-monitor-admin" />
         <module name="yangbo-gateway" />
         <module name="yangbo-register" />
       </profile>
@@ -22,6 +23,7 @@
       <module name="yangbo-cloud" options="-parameters" />
       <module name="yangbo-common" options="-parameters" />
       <module name="yangbo-gateway" options="-parameters" />
+      <module name="yangbo-monitor-admin" options="-parameters" />
       <module name="yangbo-register" options="-parameters" />
       <module name="yangbo-server" options="-parameters" />
       <module name="yangbo-server-system" options="-parameters" />

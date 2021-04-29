@@ -4,6 +4,16 @@ server:
 spring:
   application:
     name: YangBo-Server-Test
+
+  # admin监控
+  boot:
+    admin:
+      client:
+        url: http://localhost:8401
+        # admin监控服务端的用户名和密码
+        username: yangbo
+        password: 123456
+
   #由于引用了common的mybatis-plus-boot-starter和动态数据源会自动装配，这儿不需要需要手动关闭
   autoconfigure:
     exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration,com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DynamicDataSourceAutoConfiguration
@@ -32,3 +42,23 @@ feign:
 hystrix:
   # 配置把SecurityContext对象从你当前主线程传输到Hystrix线程;让feign拦截器顺利获取令牌
   shareSecurityContext: true
+
+# 监控相关
+info:
+  app:
+    name: ${spring.application.name}
+    description: "@project.description@"
+    version: "@project.version@"
+
+
+# 监控相关
+management:
+  endpoints:
+    web:
+      exposure:
+        # 表示将SpringBootAdmin客户端的所有监控端点都暴露给SBA服务端
+        include: '*'
+  endpoint:
+    health:
+      # 表示总是展示详细的健康信息
+      show-details: ALWAYS
