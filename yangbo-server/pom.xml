@@ -23,6 +23,27 @@
     <description>YangBo-Server服务提供模块</description>
 
     <dependencies>
+
+        <!--zipkin-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-zipkin</artifactId>
+        </dependency>
+
+        <!--rabbit-->
+        <dependency>
+            <groupId>org.springframework.amqp</groupId>
+            <artifactId>spring-rabbit</artifactId>
+        </dependency>
+
+
+        <!--Sleuth Zipkin链路追踪-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-sleuth</artifactId>
+        </dependency>
+
+
         <!--公共模块-->
         <dependency>
             <groupId>life.yangbo</groupId>

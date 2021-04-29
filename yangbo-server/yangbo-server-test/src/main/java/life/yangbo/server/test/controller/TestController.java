@@ -49,7 +49,8 @@ public class TestController {
     private IHelloService helloService;
 
     @GetMapping("hello")
-    public String hello(String name){
+    public String hello(String name) {
+        log.info("Feign调用febs-server-system的/hello服务");
         return this.helloService.hello(name);
     }
 }
