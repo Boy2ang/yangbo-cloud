@@ -9,7 +9,7 @@
     <!--这段配置用于引用Spring上下文的变量。通过这段配置，我们可以在logback配置文件中使用${springAppName}来引用配置文件application.yml里的spring.application.name配置值-->
     <springProperty scope="context" name="springAppName" source="spring.application.name"/>
     <!--用于指定日志文件存储路径-->
-    <property name="log.path" value="log/yangbo-server-system"/>
+    <property name="log.path" value="log/yangbo-register"/>
     <!--用于指定日志文件存储的天数，这里指定为15天。-->
     <property name="log.maxHistory" value="15"/>
 
@@ -46,52 +46,9 @@
             <pattern>${log.pattern}</pattern>
         </encoder>
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
-            <!--
-                参考：https://blog.csdn.net/qq_36066039/article/details/100584785
 
-                log4j 等级 ALL < TRANCE < DEBUG < INFO < WARN < ERROR < FATAL < OFF
-
-                网上的解释：
-                onMatch:意思是当前级别以及以上要怎么处理：ACCEPT 接收，  NEUTRAL 往后走   DENY拒绝
-                onMismatch:意思是当前级别(不包括当前级别)以下要怎么处理：ACCEPT 接收，  NEUTRAL 往后走   DENY拒绝
-
-                场景一：假如我们想要  INFO级别到ERROR级别之间的输出到控制台，其他的忽略，思路如下分析。
-                经过分析也就是大于等于INFO级别的日志  往后走NEUTRAL进入下一个过滤器其他的拒绝 DENY。然后在下一个过滤器中，我让大于等于FATAL的拒绝DENY，小于的接受ACCEPT。
-                <ThresholdFilter level="INFO" onMatch="NEUTRAL " onMismatch="DENY"/>
-                <ThresholdFilter level="FATAL" onMatch="DENY" onMismatch="ACCEPT"/>
-
-                网上解释+自己总结：
-                只要不是截取一个日志级别范围一个过滤器就够了，不需要流动NEUTRAL到第二个过滤器。
-                只有在截取日志级别大于某个级别小于某个级别的时候，才需要两个过滤器。实现方式就是场景一描述的那样。
-
-            -->
-
-            <!--
-                场景二：这里表示info之后的日志，忽略掉比info级别小的日志
-                即：直接大于等于info的接受，小于的拒绝。（INFO < WARN < ERROR < FATAL < OFF）
-
-                以上也是百度+自己得出的结论，没有实测！！
-
-                我手动输出了info，warn，error三种等级的日志，根据以上配置，info文件夹里面应该都有才对，但是只看到了info级别的
-                这是为啥？
-
-                因为过滤器分LevelFilter和ThresholdFilter
-                关于两种的区别可以看看：https://www.jianshu.com/p/d6360c517264
-                https://www.cnblogs.com/xrq730/p/8628945.html
-                感觉他们也没说太明白
-
-
-                自己实测试了下，只看file_info的配置
-                由于appender优先级大于root级别，所以只要appender里面配置了等级，就按appender里面的来
-                配置一： LevelFilter 加上 lever：info onMatch：accept + onMismatch：deny 只打印info级别
-                配置二： ThresholdFilter 加上 lever：info 能打印info 及其以上级别 ，但是加上onMatch，onMismatch后，项目都不能启动了
-                总之：我如果只要log文件夹打印log级别，就用配置一就好了
-
-            -->
             <level>INFO</level>
-            <!--网上的解释：表示匹配该级别及以上-->
             <onMatch>ACCEPT</onMatch>
-            <!--网上的解释：表示不匹配该级别以下的-->
             <onMismatch>DENY</onMismatch>
         </filter>
     </appender>
@@ -111,29 +68,6 @@
         </filter>
     </appender>
 
-    <!--
-        log4j 等级 ALL < TRANCE < DEBUG < INFO < WARN < ERROR < FATAL < OFF
-        logback推荐只需要写这几个等级，从低到高分别是TRACE < DEBUG < INFO < WARN < ERROR
-        Trace:是追踪，就是程序推进以下，你就可以写个trace输出，所以trace应该会特别多，不过没关系，我们可以设置最低日志级别不让他输出.
-        Debug:指出细粒度信息事件对调试应用程序是非常有帮助的.
-        Info:消息在粗粒度级别上突出强调应用程序的运行过程.
-        Warn:输出警告及warn以下级别的日志.
-        Error:输出错误信息日志.
-        此外OFF表示关闭全部日志，ALL表示开启全部日志。
-        1. 如果logger没有被分配级别，name它将从有被分配级别的最近的父类那里继承级别，root logger默认级别是DEBUG。
-        2. 日志输出的时候，级别大的会输出，根据当前ROOT 级别，日志输出时，级别高于root默认的级别时会输出，
-        比如如果root的级别是info，那么会输出info以及info级别以上的日志。
-    -->
-
-    <!--
-        root节点是必选节点，用来指定最基础的日志输出级别，只有一个level属性，用来设置打印级别。
-        如果在appender里制定了日志打印的级别，那么root指定的级别将会被覆盖。
-        即
-        控制台会打印DEBUG，INFO，WARN，ERROR，FATAL，OFF级别的日志
-        info文件夹会打印INFO，WARN，ERROR，FATAL，OFF级别的日志
-        error文件夹下会打印ERROR,FATAL,OFF级别的日志
-
-    -->
     <root level="debug">
         <appender-ref ref="console"/>
     </root>

@@ -33,6 +33,8 @@ public class TestController {
     @GetMapping("hello")
     public String hello(String name) {
         log.info("/hello服务被调用");
+        //log.warn("/hello服务被调用");
+        //log.error("/hello服务被调用");
         return "hello" + name;
     }
 }
