@@ -2,6 +2,9 @@ server:
   port: 8201
 
 spring:
+  # 没有使用到Redis，关闭自动装配
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration
   # 链路追踪相关
   zipkin:
     sender:
