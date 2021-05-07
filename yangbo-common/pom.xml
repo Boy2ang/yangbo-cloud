@@ -16,6 +16,13 @@
 
     <dependencies>
 
+        <!--使用nacos-config统一存储配置文件-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+        </dependency>
+
+
         <!--mp-->
         <dependency>
             <groupId>com.baomidou</groupId>

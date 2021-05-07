@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: YangBo-Server-System
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8001
+      config:
+        server-addr: 127.0.0.1:8001
+        group: DEFAULT_GROUP
+        prefix: yangbo-server-system
+        # 指定微服务配置文件的类型
+        file-extension: yaml
+
+logging:
+  level:
+    # 启动后一直会打印info信息（原因未知），所以设置error
+    com.alibaba.nacos.client: error
+

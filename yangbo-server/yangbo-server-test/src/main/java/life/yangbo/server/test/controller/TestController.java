@@ -53,4 +53,10 @@ public class TestController {
         log.info("Feign调用febs-server-system的/hello服务");
         return this.helloService.hello(name);
     }
+
+    @GetMapping("good")
+    public String good() {
+        log.info("test的goot方法被调用啦");
+        return "success";
+    }
 }

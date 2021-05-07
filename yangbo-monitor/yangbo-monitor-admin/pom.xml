@@ -51,6 +51,13 @@
             <version>2.1.6</version>
         </dependency>
 
+        <!--由于没有引用common，需要单独添加此依赖-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+        </dependency>
+
+
     </dependencies>
 
 

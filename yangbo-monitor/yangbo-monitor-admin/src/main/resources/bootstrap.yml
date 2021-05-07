@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: YangBo-Monitor-Admin
+  cloud:
+    nacos:
+      config:
+        server-addr: 127.0.0.1:8001
+        group: DEFAULT_GROUP
+        prefix: yangbo-monitor-admin
+        file-extension: yaml
