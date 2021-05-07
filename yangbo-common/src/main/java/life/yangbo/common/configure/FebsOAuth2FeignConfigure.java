@@ -19,8 +19,8 @@ public class FebsOAuth2FeignConfigure {
         return requestTemplate -> {
 
             // 添加Zuul Token
-            String zuulToken = new String(Base64Utils.encode(FebsConstant.ZUUL_TOKEN_VALUE.getBytes()));
-            requestTemplate.header(FebsConstant.ZUUL_TOKEN_HEADER, zuulToken);
+            String zuulToken = new String(Base64Utils.encode(FebsConstant.GATEWAY_TOKEN_VALUE.getBytes()));
+            requestTemplate.header(FebsConstant.GATEWAY_TOKEN_HEADER, zuulToken);
 
 
             Object details = SecurityContextHolder.getContext().getAuthentication().getDetails();

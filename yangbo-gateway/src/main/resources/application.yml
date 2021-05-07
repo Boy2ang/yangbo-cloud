@@ -1,39 +1,51 @@
 server:
   port: 8301
-
 spring:
   application:
-    name: YangBo-Gateway
-  autoconfigure:
-    # 由于引用了common的mybatis-plus-boot-starter会自动装配，这儿不需要需要手动关闭
-    exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration,org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration
-  # admin监控
+    name: Yangbo-Gateway
   boot:
     admin:
       client:
         url: http://localhost:8401
-        # admin监控服务端的用户名和密码
         username: yangbo
         password: 123456
+  cloud:
+    gateway:
+      routes:
+        # 路由ID，保存唯一即可
+        - id: YangBo-Auth
+          # load balance；注册中心的名称
+          uri: lb://YangBo-Auth
+          predicates:
+            - Path=/auth/**
+          filters:
+            - name: Hystrix
+              args:
+                name: authfallback
+                # 如果响应时间超过timeoutInMilliseconds设定的时间，则进入到gateway的控制器/fallback/YangBo-Auth
+                fallbackUri: forward:/fallback/YangBo-Auth
 
-# 监控相关
-info:
-  app:
-    name: ${spring.application.name}
-    description: "@project.description@"
-    version: "@project.version@"
-
-# 监控相关
-management:
-  endpoints:
-    web:
-      exposure:
-        # 表示将SpringBootAdmin客户端的所有监控端点都暴露给SBA服务端
-        include: '*'
-  endpoint:
-    health:
-      # 表示总是展示详细的健康信息
-      show-details: ALWAYS
+        - id: YangBo-Server-System
+          uri: lb://YangBo-Server-System
+          predicates:
+            - Path=/system/**
+          filters:
+            - name: Hystrix
+              args:
+                name: systemfallback
+                fallbackUri: forward:/fallback/YangBo-Server-System
+        - id: YangBo-Server-test
+          uri: lb://YangBo-Server-Test
+          predicates:
+            - Path=/test/**
+          filters:
+            - name: Hystrix
+              args:
+                name: testfallback
+                fallbackUri: forward:/fallback/YangBo-Server-Test
+      default-filters:
+        # 请求转发前，将Path的内容截去前面一位。比如/auth/hello会被截取为/hello。
+        - StripPrefix=1
 
 eureka:
   instance:
@@ -46,35 +58,20 @@ eureka:
     serviceUrl:
       defaultZone: http://yangbo:yangbo@localhost:8001/register/eureka/
 
-zuul:
-  SendErrorFilter:
-    error:
-      # 让默认的异常过滤器失效从而使用自己的
-      disable: true
-  routes:
-    # 系统微服务
-    system:
-      path: /system/**
-      serviceId: YangBo-Server-System
-      sensitiveHeaders: "*"
-    # 测试微服务
-    test:
-      path: /test/**
-      serviceId: YangBo-Server-Test
-      sensitiveHeaders: "*"
-    # 认证微服务
-    auth:
-      path: /auth/**
-      # 是否去掉前缀，默认是去掉的
-      # strip-prefix: false
-      serviceId: YangBo-Auth
-      sensitiveHeaders: "*"
+management:
+  endpoint:
+    health:
+      show-details: ALWAYS
+  endpoints:
+    web:
+      exposure:
+        include: health,info,gateway
 
-  retryable: true
-  ignored-services: "*"
-  ribbon:
-    eager-load:
-      enabled: true
-
-ribbon:
-  ReadTimeout: 3000
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            # 超时时间
+            timeoutInMilliseconds: 3000

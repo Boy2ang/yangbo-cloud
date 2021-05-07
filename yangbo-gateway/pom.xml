@@ -16,33 +16,48 @@
     <description>YangBo-Cloud网关</description>
 
     <dependencies>
-
-        <!--SpringBootAdmin监控客户端-->
-        <dependency>
-            <groupId>de.codecentric</groupId>
-            <artifactId>spring-boot-admin-starter-client</artifactId>
-            <version>2.1.6</version>
-        </dependency>
-
-        <!--阿里巴巴开源的Sentinel流量哨兵来限制验证码的获取频率。-->
-        <dependency>
-            <groupId>com.alibaba.csp</groupId>
-            <artifactId>sentinel-zuul-adapter</artifactId>
-            <version>1.6.3</version>
-        </dependency>
-
         <!--公共依赖-->
         <dependency>
             <groupId>life.yangbo</groupId>
             <artifactId>yangbo-common</artifactId>
             <version>1.0-SNAPSHOT</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-web</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.baomidou</groupId>
+                    <artifactId>mybatis-plus-boot-starter</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-data-redis</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework.cloud</groupId>
+                    <artifactId>spring-cloud-starter-oauth2</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework.cloud</groupId>
+                    <artifactId>spring-cloud-starter-security</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
-        <!--zuul-->
+        <!--cloud-gateway-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-zuul</artifactId>
+            <artifactId>spring-cloud-starter-gateway</artifactId>
         </dependency>
+
+        <!--限流-->
+        <dependency>
+            <groupId>com.alibaba.csp</groupId>
+            <artifactId>sentinel-spring-cloud-gateway-adapter</artifactId>
+            <version>1.6.3</version>
+        </dependency>
+
 
     </dependencies>
 
