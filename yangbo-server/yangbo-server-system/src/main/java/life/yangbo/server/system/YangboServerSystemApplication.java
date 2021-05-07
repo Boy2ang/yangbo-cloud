@@ -23,11 +23,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 @MapperScan("life.yangbo.server.system.mapper")
 @FebsCloudApplication
-// @EnableFebsServerProtect
-// @EnableFebsOauth2FeignClient
-// @EnableFebsAuthExceptionHandler
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-@EnableDiscoveryClient
 @SpringBootApplication
 public class YangboServerSystemApplication {
 

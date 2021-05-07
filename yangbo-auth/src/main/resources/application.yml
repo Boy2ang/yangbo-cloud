@@ -5,6 +5,8 @@ spring:
   application:
     name: YangBo-Auth
 
+
+
   # admin监控
   boot:
     admin:
@@ -14,6 +16,11 @@ spring:
         # admin监控服务端的用户名和密码
         username: yangbo
         password: 123456
+
+  cloud:
+    nacos:
+      discovery:
+        server-addr: ${nacos.url}:8001
 
   redis:
     database: 0
@@ -80,15 +87,4 @@ mybatis-plus:
     # 设置为false关闭MyBatis Plus Banner打印。
     banner: false
 
-eureka:
-  instance:
-    lease-renewal-interval-in-seconds: 20
-  client:
-    register-with-eureka: true
-    fetch-registry: true
-    instance-info-replication-interval-seconds: 30
-    registry-fetch-interval-seconds: 3
-    serviceUrl:
-      # defaultZone: http://yangbo:yangbo@localhost:8001/register/eureka/
-      defaultZone: http://yangbo:yangbo@${yangbo-register}:8001/register/eureka/
 

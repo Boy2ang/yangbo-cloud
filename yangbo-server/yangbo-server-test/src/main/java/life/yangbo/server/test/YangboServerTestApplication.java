@@ -20,11 +20,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
  * @EnableFebsAuthExceptionHandler 开启资源异常处理（401、403）配置，需要结合FebsServerTestResourceServerConfigure配置后才能生效
  */
 @FebsCloudApplication
-// @EnableFebsServerProtect
-// @EnableFebsOauth2FeignClient
-// @EnableFebsAuthExceptionHandler
 @EnableFeignClients
-@EnableDiscoveryClient
 @SpringBootApplication
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class YangboServerTestApplication {

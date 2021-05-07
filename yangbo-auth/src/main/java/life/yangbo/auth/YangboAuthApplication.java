@@ -6,7 +6,6 @@ import life.yangbo.common.annotation.EnableFebsServerProtect;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 /**
  * @EnableFebsLettuceRedis 开启连接redis的工具
@@ -18,7 +17,6 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 @MapperScan("life.yangbo.auth.mapper")
 @EnableFebsServerProtect
 @EnableFebsAuthExceptionHandler
-@EnableDiscoveryClient
 @SpringBootApplication
 public class YangboAuthApplication {
 

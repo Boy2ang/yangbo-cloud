@@ -30,6 +30,12 @@ spring:
         # admin监控服务端的用户名和密码
         username: yangbo
         password: 123456
+
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8001
+
   #数据源配置
   datasource:
     dynamic:

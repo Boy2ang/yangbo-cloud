@@ -29,21 +29,15 @@ spring:
         # admin监控服务端的用户名和密码
         username: yangbo
         password: 123456
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8001
 
   #由于引用了common的mybatis-plus-boot-starter和动态数据源会自动装配，这儿不需要需要手动关闭
   autoconfigure:
     exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration,com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DynamicDataSourceAutoConfiguration,org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration
 
-eureka:
-  instance:
-    lease-renewal-interval-in-seconds: 20
-  client:
-    register-with-eureka: true
-    fetch-registry: true
-    instance-info-replication-interval-seconds: 30
-    registry-fetch-interval-seconds: 3
-    serviceUrl:
-      defaultZone: http://yangbo:yangbo@localhost:8001/register/eureka/
 security:
   oauth2:
     resource:

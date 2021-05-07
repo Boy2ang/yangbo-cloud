@@ -10,6 +10,9 @@ spring:
         username: yangbo
         password: 123456
   cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8001
     gateway:
       routes:
         # 路由ID，保存唯一即可
@@ -47,16 +50,6 @@ spring:
         # 请求转发前，将Path的内容截去前面一位。比如/auth/hello会被截取为/hello。
         - StripPrefix=1
 
-eureka:
-  instance:
-    lease-renewal-interval-in-seconds: 20
-  client:
-    register-with-eureka: true
-    fetch-registry: true
-    instance-info-replication-interval-seconds: 30
-    registry-fetch-interval-seconds: 3
-    serviceUrl:
-      defaultZone: http://yangbo:yangbo@localhost:8001/register/eureka/
 
 management:
   endpoint:
