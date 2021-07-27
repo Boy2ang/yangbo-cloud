@@ -1,6 +1,7 @@
 package life.yangbo.server.system.controller;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.catalina.security.SecurityUtil;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,6 +23,7 @@ public class TestController {
      */
     @GetMapping("currentUser")
     public Principal currentUser(Principal principal) {
+        log.info("system服务 获取当前用户信息");
         return principal;
     }
 

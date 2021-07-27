@@ -29,9 +29,14 @@ public class SecurityController {
         return "oauth";
     }
 
+    /**
+     * 这个不能删，oauth2默认或请求这个方法获取用户信息
+     * @param principal
+     * @return
+     */
     @GetMapping("user")
     public Principal currentUser(Principal principal) {
-        log.info("i am coming...");
+        log.info("auth 服务 获取当前信息");
         return principal;
     }
 

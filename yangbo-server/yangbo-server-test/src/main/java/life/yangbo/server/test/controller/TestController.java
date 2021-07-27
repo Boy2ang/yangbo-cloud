@@ -27,7 +27,7 @@ public class TestController {
 
     @GetMapping("user")
     public Principal currentUser(Principal principal) {
-        log.info("i am coming...");
+        log.info("test 服务 获取当前信息 ");
         return principal;
     }
 

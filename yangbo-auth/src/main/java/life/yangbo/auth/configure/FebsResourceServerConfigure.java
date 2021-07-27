@@ -48,12 +48,16 @@ public class FebsResourceServerConfigure extends ResourceServerConfigurerAdapter
         String[] anonUrls = StringUtils.splitByWholeSeparatorPreserveAllTokens(properties.getAnonUrl(), ",");
 
         http.csrf().disable()
-                .requestMatchers().antMatchers("/**")
+                .requestMatchers()
+                .antMatchers("/**")
                 .and()
                 .authorizeRequests()
                 .antMatchers(anonUrls).permitAll()
                 .antMatchers("/**").authenticated()
-                .and().httpBasic();
+                .and()
+                // httpBasic是由http协议定义的最基础的认证方式。每次请求时，在请求头Authorization参数中附带用户/密码的base64编码
+                // 这个方式并不安全，不适合在web项目中使用。但它是一些现代主流认证的基础，而且在spring security的oauth中，内部认证默认就是用的httpBasic。
+                .httpBasic();
     }
 
     /**

@@ -52,10 +52,12 @@ public class FebsSecurityConfigure extends WebSecurityConfigurerAdapter {
         http
                 .addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class)
                 // FebsSecurityConfigure安全配置类只对/oauth/开头的请求有效。
-                .requestMatchers().antMatchers("/oauth/**")
+                .requestMatchers()
+                .antMatchers("/oauth/**")
                 .and()
                 // 访问
-                .authorizeRequests().antMatchers("/oauth/**").authenticated()
+                .authorizeRequests()
+                .antMatchers("/oauth/**").authenticated()
                 .and()
                 .csrf().disable();
     }
